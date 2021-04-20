@@ -8,3 +8,8 @@ def ftext(n) :
         if i != n-1 :
             s += '|'
     print('ffmpeg -i \'concat:' + s + '\' -acodec copy -vcodec copy -absf aac_adtstoasc output.mp4')
+
+ftext(3)
+
+for i in range(3) :
+    print('ffmpeg -i \'(' + str(i+1) +').wmv\' \'(' + str(i+1) + ').mp4\'')
