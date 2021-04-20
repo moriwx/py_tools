@@ -11,5 +11,10 @@ def ftext(n) :
 
 ftext(3)
 
+# .wmv to .mp4
 for i in range(3) :
     print('ffmpeg -i \'(' + str(i+1) +').wmv\' \'(' + str(i+1) + ').mp4\'')
+
+# mpeg4 to h264
+for i in range(5) :
+    print('ffmpeg -i \'(' + str(i+1) +').mp4\' -vcodec h264 \'video (' + str(i+1) + ').mp4\'')
