@@ -11,10 +11,26 @@ while True :
         urlretrieve(url + str(i) + '.ts', tmp + taskno + str(i).rjust(4,'0') + '.ts')
     except :
         print('copy /b ' + tmp + '*.ts ' + tmp + 'new.ts')
-        print(r'ffmpeg -i ' + tmp + 'new.ts -acodec copy -vcodec copy -absf aac_adtstoasc '
-              + root + url[-6:] + '.mp4')
+        print(r'ffmpeg -i ' + tmp + 'new.ts -acodec copy -vcodec copy -absf aac_adtstoasc ' + root + url[-6:] + '.mp4')
         break
     else :
         i += 1
         
-# del D:\ts\*
+
+# UPDATE(Apr24,2021)
+import os
+for vnum in range(451234, 451239) :
+    vno = str(vnum)
+    i = 0
+    url = 'https://xxx/' + vno
+    while True :
+        try : 
+            urlretrieve(url + str(i) + '.ts', tmp + vno + str(i).rjust(4,'0') + '.ts')
+        except :
+            os.system('copy /b ' + tmp + '*.ts ' + tmp + 'new.ts')
+            os.system('ffmpeg -i ' + tmp + 'new.ts -acodec copy -vcodec copy -absf aac_adtstoasc ' + root_test + vno + '.mp4')
+            for fi in os.listdir(tmp) :  # del D:\ts\*
+                os.remove(tmp + fi)
+            break
+        else :
+            i += 1
