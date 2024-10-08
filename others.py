@@ -35,7 +35,7 @@ def maapd_extract(text):
     return (match_ma.group(1),)
     
 data = []
-with open('moegirl.txt', 'r', encoding='utf-8') as file:
+with open('E://Music//プロセカ曲.txt', 'r', encoding='utf-8') as file: # 20240830
     for line in file:
         if len(line)>=5 and line.startswith('|'):
             datai = line.lstrip('|').rstrip('\n').split('||')
@@ -50,6 +50,17 @@ df.artist = df.artist.apply(link_extract)
 df.maapd = df.maapd.apply(maapd_extract)
 df.maapdn = df.maapdn.apply(maapd_extract)
 
+def apd_date_cal(row):
+    if len(row.maapd)==2:
+        apddatel = re.findall(r'\d{4}/\d{2}/\d{2}', row['info'])
+        if len(apddatel)==1:
+            return apddatel[0]
+        # elif len(apddatel)>1: print(row)
+        else:
+            return row['date']
+    return ''
+df['appdate'] = df.apply(apd_date_cal, axis=1)
+
 def band_genre(text):
     if text.startswith('Leo/need'):
         return 'ln'
@@ -59,7 +70,7 @@ def band_genre(text):
         return 'vbs'
     if text.startswith('Wonderlands×Showtime'):
         return 'ws'
-    if text.startswith('25时，在Nightcord。'):
+    if text.startswith('25点，Nightcord见。'):
         return '25'
     if text.startswith('世界计划虚拟歌手'):
         return 'v'
@@ -68,7 +79,7 @@ def band_genre(text):
     return ''
 df['band'] = df.title.apply(band_genre)
 df['genre'] = df.title.str.extract(r'^(.*?)\d{0,1}#', expand=True)
-df.loc[df.id.isin(('76', '77', '141', '235', '336', '366', '502')), 'band'] = 'v'
+df.loc[df.id.isin(('76', '77', '141', '235', '336', '366', '489', '502')), 'band'] = 'v'
 df.loc[df.id.isin(('302', '232', '233')), 'band'] = 'ln'
 df.loc[df.id.isin(('400',)), 'band'] = 'mmj'
 df.loc[df.id.isin(('230',)), 'band'] = 'vbs'
